@@ -38,13 +38,13 @@ def get_ll(addrress):
     top_long, top_latt = toponym_coodrinates.split(' ')
     ll = f'{top_long},{top_latt}'
 
-    envelope = toponym['boundedBy']['Envelope']
-    l, b = envelope['lowerCorner'].split(' ')
-    r, t = envelope['upperCorner'].split(' ')
-    dx = abs(float(l) - float(r)) / 2.0
-    dy = abs(float(b) - float(t)) / 2.0
-    spn = f'{dx},{dy}'
-    return ll, spn
+    # envelope = toponym['boundedBy']['Envelope']
+    # l, b = envelope['lowerCorner'].split(' ')
+    # r, t = envelope['upperCorner'].split(' ')
+    # dx = abs(float(l) - float(r)) / 2.0
+    # dy = abs(float(b) - float(t)) / 2.0
+    # spn = f'{dx},{dy}'
+    return ll
 
 
 def ll_distance(x, y):

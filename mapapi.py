@@ -34,6 +34,18 @@ def show_map(ll=None, z=None, map_type='map', add_param=None):
             print('Ошибка записи временного файла:', ex)
             sys.exit(2)
 
+    def dvig(direction):
+        chislo = list(map(float, ll.split(',')))
+        if direction == 'left':
+            chislo[0] -= 0.050 / z
+        if direction == 'right':
+            chislo[0] += 0.050 / z
+        if direction == 'up':
+            chislo[1] += 0.050 / z
+        if direction == 'down':
+            chislo[1] -= 0.050 / z
+        return f'{chislo[0]},{chislo[1]}'
+
     pygame.init()
     screen = pygame.display.set_mode((600, 450))
     filess()
@@ -51,6 +63,14 @@ def show_map(ll=None, z=None, map_type='map', add_param=None):
                 if event.key == pygame.K_PAGEUP:
                     if z < 17:
                         z += 1
+                if event.key == pygame.K_LEFT:
+                    ll = dvig('left')
+                if event.key == pygame.K_RIGHT:
+                    ll = dvig('right')
+                if event.key == pygame.K_UP:
+                    ll = dvig('up')
+                if event.key == pygame.K_DOWN:
+                    ll = dvig('down')
                 filess()
                 screen.blit(pygame.image.load(map_file), (0, 0))
         pygame.display.flip()
