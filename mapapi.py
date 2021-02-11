@@ -71,6 +71,12 @@ def show_map(ll=None, z=None, map_type='map', add_param=None):
                     ll = dvig('up')
                 if event.key == pygame.K_DOWN:
                     ll = dvig('down')
+                if event.key == pygame.K_KP1:
+                    map_type = 'map'
+                if event.key == pygame.K_KP2:
+                    map_type = 'sat'
+                if event.key == pygame.K_KP3:
+                    map_type = 'sat,skl'
                 filess()
                 screen.blit(pygame.image.load(map_file), (0, 0))
         pygame.display.flip()
