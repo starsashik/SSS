@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QMenuBar, QAction, QInputDialog
 
-from geocoder import get_coordinates
+from geocoder import get_coordinates, geocode
 
 
 class Example(QWidget):
@@ -14,7 +14,7 @@ class Example(QWidget):
         super().__init__()
         self.coords = [37.622504, 55.753215]
         self.coords_pt = []
-        self.adress = ''
+        self.adress = 'Россия, Москва'
         self.z = 10
         self.map_file = "map.png"
         self.types = ["map", "sat", "sat,skl"]
@@ -31,8 +31,8 @@ class Example(QWidget):
         self.map.setGeometry(0, 0, 600, 450)
         self.map.setPixmap(self.get_map())
 
-        self.adressPt = QLabel("", self)
-        self.adressPt.setGeometry(50, 0, 150, 20)
+        self.adressPt = QLabel("Россия, Москва", self)
+        self.adressPt.setGeometry(50, 0, 300, 20)
         self.adressPt.setVisible(True)
 
         mainMenu = QMenuBar(self)
@@ -67,7 +67,7 @@ class Example(QWidget):
         self.map.setPixmap(self.get_map())
 
     def get_map(self):
-        if not self.adress:
+        if self.adress == 'Россия, Москва':
             map_request = f"https://static-maps.yandex.ru/1.x/?ll={f'{self.coords[0]},{self.coords[1]}'}" \
                           f"&l={self.type}&z={self.z}"
         else:
@@ -112,14 +112,15 @@ class Example(QWidget):
                 except:
                     pass
                 if self.coords_pt:
-                    self.adress = adres
-                    self.adressPt.setText(self.adress)
+                    self.adress = geocode(adres)['metaDataProperty']['GeocoderMetaData']['Address']['formatted']
+                    self.adressPt.setText(geocode(adres)['metaDataProperty']['GeocoderMetaData']['Address']
+                                          ['formatted'])
                     self.map.setPixmap(self.get_map())
 
     def clearPt(self):
         self.coords_pt = []
-        self.adress = ''
-        self.adressPt.setText('')
+        self.adress = 'Россия, Москва'
+        self.adressPt.setText('Россия, Москва')
         self.map.setPixmap(self.get_map())
 
 
